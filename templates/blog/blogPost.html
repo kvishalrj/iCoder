@@ -37,11 +37,14 @@
             <img class="rounded mx-auto d-block w-100 p-2" src="/static/userimg/user.png" alt="user">
         </div>
         <div class="col-md-11 border border-danger rounded">
-            <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp |
-                naturaltime}}</span>
-            <div>
-                {{comment.comment}}
+            <div class="comment my-2">
+                <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp|naturaltime}}</span>
+                <div>
+                    {{comment.comment}}
+                </div>
             </div>
+
+            {% if user.is_authenticated %}
             <div class="reply mx-0 my-2">
                 <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
                     data-bs-target="#replyBox{{comment.sno}}" aria-expanded="false"
@@ -62,6 +65,35 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            {% else %}
+            <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replyBox{{comment.sno}}" aria-expanded="false"
+                    aria-controls="replyBox{{comment.sno}}" disabled>
+                    Login to reply
+                </button>
+            {% endif %}
+            <div class="replies my-2">
+                {% for key, val in replyDict.items %}
+                {% if key == comment.sno %}
+                {% for v in val %}
+                <div class="row me-2">
+                    <div class="col-md-1">
+                        <img class="rounded mx-auto d-block w-75 p-2" src="/static/userimg/user.png" alt="user">
+                    </div>
+                    <div class="col-md-11 border border-danger rounded">
+                        <div class="comment my-2">
+                            <b>{{v.user.username}} </b> <span class="badge bg-secondary">{{v.timestamp|naturaltime}}</span>
+                            <div>
+                                {{v.comment}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>

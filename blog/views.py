@@ -10,8 +10,17 @@ def blogHome(request):
 
 def blogPost(request, slug):
     post = Post.objects.filter(slug=slug).first()
-    comments = BlogComment.objects.filter(post=post)
-    context = {'post' : post, 'comments' : comments, 'user' : request.user}
+    comments = BlogComment.objects.filter(post=post, parent=None)
+    replies = BlogComment.objects.filter(post=post).exclude(parent=None)
+    replyDict = {}
+
+    for reply in replies:
+        if reply.parent.sno not in replyDict.keys(): 
+            replyDict[reply.parent.sno] = [reply]
+        else:
+            replyDict[reply.parent.sno].append(reply)
+    
+    context = {'post':post, 'comments':comments, 'replyDict':replyDict, 'user':request.user}
     return render(request, 'blog/blogPost.html', context)
 
 def postComment(request):
@@ -31,7 +40,7 @@ def postComment(request):
             messages.success(request, "Your comment has been posted successfully")
         else:
             parent = BlogComment.objects.get(sno=parentSno)
-            comment = BlogComment(comment=comment, user=user, post=post)
+            comment = BlogComment(comment=comment, user=user, post=post, parent=parent)
             comment.save()
             messages.success(request, "Your reply has been posted successfully")
         return redirect(f"/blog/{slug}")
