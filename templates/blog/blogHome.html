@@ -11,10 +11,11 @@
     {% for post in allPosts  %}
     <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
       <div class="col p-4 d-flex flex-column position-static">
-        <strong class="d-inline-block mb-2 text-primary-emphasis">Article by {{post.author}}</strong>
-        <h3 class="mb-0">{{post.title}}</h3>
+        <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by {{post.author}}</b></a>
+        <a href="/blog/{{post.slug}}" class="text-decoration-none">
+        <h3 class="mb-0 text-dark">{{post.title}}</h3>
         <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-        <p class="card-text mb-auto">{{post.content | truncatechars:500}}</p>
+        <p class="card-text mb-auto text-dark">{{post.content | truncatechars:500}}</p>
           <div class="my-3">
             <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
                 Continue reading
@@ -22,6 +23,7 @@
           </div>
       </div>
     </div>
+  </a>
     {% endfor %}
 </div>
   

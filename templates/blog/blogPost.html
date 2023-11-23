@@ -2,7 +2,7 @@
 
 {% block title %} Blog Post {% endblock title %}
 
-{% block body %} 
+{% block body %}
 
 {% load humanize %}
 
@@ -20,6 +20,7 @@
             {% csrf_token %}
             <input type="hidden" name="postSno" value="{{post.sno}}">
             <input type="hidden" name="postSlug" value="{{post.slug}}">
+            <input type="hidden" name="parentSno" value="">
             <div class="mb-3">
                 <input type="text" class="form-label" name="comment" placeholder="Enter comment here">
             </div>
@@ -29,16 +30,38 @@
         <p>Please login to post comments</p>
         {% endif %}
     </div>
-    
+
     {% for comment in comments %}
     <div class="row my-3">
         <div class="col-md-1">
             <img class="rounded mx-auto d-block w-100 p-2" src="/static/userimg/user.png" alt="user">
         </div>
         <div class="col-md-11 border border-danger rounded">
-            <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp | naturaltime}}</span>
+            <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp |
+                naturaltime}}</span>
             <div>
                 {{comment.comment}}
+            </div>
+            <div class="reply mx-0 my-2">
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replyBox{{comment.sno}}" aria-expanded="false"
+                    aria-controls="replyBox{{comment.sno}}">
+                    Reply
+                </button>
+                <div class="collapse my-2" id="replyBox{{comment.sno}}">
+                    <div class="card card-body">
+                        <form action="/blog/postComment" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="postSno" value="{{post.sno}}">
+                            <input type="hidden" name="postSlug" value="{{post.slug}}">
+                            <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                            <div class="mb-3">
+                                <input type="text" class="form-label" name="comment" placeholder="Reply here">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
