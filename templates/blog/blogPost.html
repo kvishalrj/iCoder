@@ -4,10 +4,45 @@
 
 {% block body %} 
 
+{% load humanize %}
+
 <div class="container my-3">
     <h2 class="blog-post-title">{{post.title}}</h2>
     <p class="blog-post-meta">{{post.timeStamp}} by <a href="#">{{post.author}}</a></p>
     <p>{{post.content}}</p>
+</div>
+
+<div class="container">
+    <h3>Comments ({{comments.count}})</h3>
+    <div class="my-2">
+        {% if user.is_authenticated %}
+        <form action="/blog/postComment" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="postSno" value="{{post.sno}}">
+            <input type="hidden" name="postSlug" value="{{post.slug}}">
+            <div class="mb-3">
+                <input type="text" class="form-label" name="comment" placeholder="Enter comment here">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% else %}
+        <p>Please login to post comments</p>
+        {% endif %}
+    </div>
+    
+    {% for comment in comments %}
+    <div class="row my-3">
+        <div class="col-md-1">
+            <img class="rounded mx-auto d-block w-100 p-2" src="/static/userimg/user.png" alt="user">
+        </div>
+        <div class="col-md-11 border border-danger rounded">
+            <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp | naturaltime}}</span>
+            <div>
+                {{comment.comment}}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock body %}
