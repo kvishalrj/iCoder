@@ -11,11 +11,13 @@
     {% for post in allPosts  %}
     <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
       <div class="col p-4 d-flex flex-column position-static">
-        <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by {{post.author}}</b></a>
+        <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by {{post.author}} ({{post.views}} Views)</b></a>
         <a href="/blog/{{post.slug}}" class="text-decoration-none">
         <h3 class="mb-0 text-dark">{{post.title}}</h3>
         <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-        <p class="card-text mb-auto text-dark">{{post.content | truncatechars:500}}</p>
+        <p class="card-text mb-auto">
+          <div class="preview text-dark">{{post.content|safe|truncatechars:500}}</div>
+        </p>
           <div class="my-3">
             <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
                 Continue reading
@@ -27,5 +29,15 @@
     {% endfor %}
 </div>
   
-
 {% endblock body %}
+
+{% block js %}
+
+<script>
+  let previews = document.getElementsByClassName('preview');
+  Array.from(previews).forEach((element)=>{
+    element.innerHTML = element.innerText;
+  })
+</script>
+  
+{% endblock js %}
