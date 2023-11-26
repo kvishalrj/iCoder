@@ -31,6 +31,9 @@ def contact(request):
 
 def search(request):
     query = request.GET['query']
+    if len(query)==0:
+        messages.warning(request, "Enter your search first!")
+        return redirect(request.META['HTTP_REFERER'])
     if len(query)>78:
         allPosts = {}
     else:
