@@ -4,14 +4,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from blog.models import Post
+from writers.models import Writer
 
 # HTML Pages
 
 def home(request):
-    return render(request, 'home/home.html')
+    allPosts = Post.objects.all()
 
-def about(request):
-    return render(request, 'home/about.html')
+    trendPost = [post for post in allPosts]
+    trendPost.sort(key=lambda p: p.views, reverse=True)
+    trendPost = trendPost[:3]
+    context = {'posts' : trendPost}
+    return render(request, 'home/home.html', context)
 
 def contact(request):
     if request.method=='POST':
@@ -76,6 +80,8 @@ def handleSignup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
+        mywriter = Writer(username=username, firstName=fname, lastName=lname, email=email, password=pass2)
+        mywriter.save()
         messages.success(request, 'Your account has been successfully created.')
         return redirect('home')
     else:

@@ -1,11 +1,28 @@
 from django.shortcuts import render, HttpResponse, redirect
 from blog.models import Post, BlogComment
 from django.contrib import messages
+from django.utils import timezone
+from datetime import datetime
+
+# custom calculation by function
+def calHours(post):
+    # Given datetime
+    given_datetime = datetime.strptime(str(post.timeStamp), "%Y-%m-%d %H:%M:%S%z")
+    # Current time
+    current_time = timezone.now()
+    # Calculate the time difference
+    time_difference = current_time - given_datetime
+    # Convert the time difference to hours
+    hours_difference = time_difference.total_seconds() / 3600
+
+    return hours_difference
 
 # Create your views here.
 def blogHome(request):
     allPosts = Post.objects.all()
-    context = {'allPosts' : allPosts}
+    recentPosts = [post for post in allPosts]
+    recentPosts.sort(key=calHours)
+    context = {'allPosts' : allPosts, 'recentPosts' : recentPosts}
     return render(request, 'blog/blogHome.html', context)
 
 def blogPost(request, slug):

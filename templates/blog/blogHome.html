@@ -4,40 +4,83 @@
 
 {% block blogactive %} text-light {% endblock blogactive %}
 
-{% block body %} 
+{% block css %}
+
+<style>
+  .img {
+    display: block;
+    max-width: 600px;
+    height: 400px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block body %}
 
 <div class="container my-3">
-    <h2>Blog by iCoder</h2>
-    {% for post in allPosts  %}
-    <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
-      <div class="col p-4 d-flex flex-column position-static">
-        <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by {{post.author}} ({{post.views}} Views)</b></a>
-        <a href="/blog/{{post.slug}}" class="text-decoration-none">
-        <h3 class="mb-0 text-dark">{{post.title}}</h3>
-        <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-        <p class="card-text mb-auto">
-          <div class="preview text-dark">{{post.content|safe|truncatechars:500}}</div>
-        </p>
-          <div class="my-3">
-            <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
+  <div class="row">
+    <div class="col-9">
+      <h2>Blog by iCoder</h2>
+      {% for post in allPosts %}
+      <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative shadow">
+        <div class="col p-4 d-flex flex-column position-static shadow">
+          <a href="/writers/{{post.author}}" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+              {{post.author}}
+              ({{post.views}} Views)</b></a>
+          <a href="/blog/{{post.slug}}" class="text-decoration-none">
+            <h3 class="mb-0 text-dark">{{post.title}}</h3>
+            <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+            <img src="/{{post.postImage}}" class="img" alt="...">
+            <p class="card-text mb-auto">
+              <div class="preview text-dark">{{post.content|safe|truncatechars:500}}</div>
+            </p>
+            <div class="my-3">
+              <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
                 Continue reading
               </a>
+            </div>
+        </div>
+      </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="col-3">
+      <h3 class="my-1">Recent Posts</h3>
+      <div class="recentlist my-4">
+        {% for post in recentPosts %}
+        <a href="/blog/{{post.slug}}" style='text-decoration: none; color: black'>
+          <div class="card shadow" style="width: 15rem;" id="card">
+            <img src=" /{{post.postImage}} " class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title"> <strong>{{post.title}}</strong> </h5>
+              <p class="card-text">{{post.content | truncatechars:"100" | safe }}</p>
+              <div class="my-3">
+                <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
+                  Continue reading
+                </a>
+              </div>
+            </div>
           </div>
+        </a>
+        <br>
+        {% endfor %}
       </div>
     </div>
-  </a>
-    {% endfor %}
+  </div>
 </div>
-  
+
 {% endblock body %}
 
 {% block js %}
 
 <script>
   let previews = document.getElementsByClassName('preview');
-  Array.from(previews).forEach((element)=>{
+  Array.from(previews).forEach((element) => {
     element.innerHTML = element.innerText;
   })
 </script>
-  
+
 {% endblock js %}

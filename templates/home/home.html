@@ -5,38 +5,72 @@
 
 {% block body %}
 
-<div class="container my-3 border border-secondary p-3">
-  <div class="text-center bg-body-tertiary rounded-3">
-    <h1 class="text-body-emphasis">Welcome to iCoder!</h1>
-    <p class="col-lg-8 mx-auto fs-5 text-muted">
-      This is a custom jumbotron featuring an SVG image at the top, some longer text that wraps early thanks to a
-      responsive <code>.col-*</code> class, and a customized call to action.
-    </p>
-    <div class="d-inline-flex gap-2 mb-5">
-      <a href="/blog"><button class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill"
-          type="button">
-          Go to Blog
-        </button></a>
-
+<header class="bg-dark py-5">
+  <div class="container px-5">
+    <div class="row gx-5 align-items-center justify-content-center">
+      <div class="col-lg-8 col-xl-7 col-xxl-6">
+        <h2 class="text-white">Welcome to iCoder...</h2>
+        <div class="my-5 text-center text-xl-start">
+          <h1 class="display-5 fw-bolder text-white mb-2">A Platform designed for modern content creators</h1>
+          <p class="lead fw-normal text-white-50 mb-4">Quickly write and customize compelling and mind blowing articles
+            on Freelance writing, the world’s most popular content creating toolkit!</p>
+          <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
+            <a class="btn btn-primary btn-lg px-4 me-sm-3" href="/blog">Get Started</a>
+            <a class="btn btn-outline-light btn-lg px-4" href="#allblogs">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
+          src="static/img/happy2.jpg" alt="..." /></div>
     </div>
   </div>
-</div>
+</header>
 
-<div class="container">
-  <h2>Popular blog posts</h2>
-  <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
-    <div class="col p-4 d-flex flex-column position-static">
-      <strong class="d-inline-block mb-2 text-primary-emphasis">World</strong>
-      <h3 class="mb-0">Featured post</h3>
-      <div class="mb-1 text-body-secondary">Nov 12</div>
-      <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional
-        content.</p>
-      <a href="#" class="icon-link gap-1 icon-link-hover stretched-link">
-        Continue reading
+
+
+<!-- Blog preview section-->
+<section class="py-5" id='allblogs'>
+  <div class="container px-5 my-5">
+    <div class="row gx-5 justify-content-center">
+      <div class="col-lg-8 col-xl-6">
+        <div class="text-center">
+          <h2 class="fw-bolder">Top Articles For You</h2>
+          <p class="lead fw-normal text-muted mb-5">Here are articles from our topmost creators. Browse through to find
+            the article you love most.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+
+      <div class="card-group">
+        {% for post in posts %}
+        <a href="/blog/{{post.slug}}" class="text-decoration-none">
+        <div class='col-12 col-sm-12 col-md-6 col-lg-4' id="col">
+          <div class="card shadow" style="margin-right: 20px">
+            <img src="/{{post.postImage}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <a href="/writers/{{post.author}}" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+                  {{post.author}} ({{post.views}} Views)</b></a>
+
+              <h4 class="mb-0 text-dark">{{post.title}}</h4>
+              <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+
+              <p class="text-dark">{{post.content|safe|truncatechars:"100"}}</p>
+              <div class="my-3">
+                <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
+                  Continue reading
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </a>
+        {% endfor %}
+
+      </div>
     </div>
   </div>
-
-</div>
+</section>
 
 {% endblock body %}
