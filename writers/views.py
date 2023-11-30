@@ -15,3 +15,10 @@ def userView(request, slug):
     context = {'writer' : writer, 'posts' : posts}
     return render(request, 'writers/userView.html', context)
 
+def profileView(request, slug):
+    writer = Writer.objects.filter(firstName=slug).first()
+    posts = Post.objects.filter(author=writer.firstName)
+    context = {'writer' : writer, 'posts' : posts}
+    return render(request, 'writers/profile.html', context)
+
+

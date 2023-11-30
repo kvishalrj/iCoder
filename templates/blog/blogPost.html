@@ -7,8 +7,8 @@
 {% load humanize %}
 
 <div class="container my-3">
-    <h2 class="blog-post-title">{{post.title}}</h2>
-    <p class="blog-post-meta">{{post.timeStamp}} by <a href="#">{{post.author}}</a> (<span>{{post.views}}</span> Views)</p> 
+    <h2>{{post.title}}</h2>
+    <p>{{post.timeStamp}} by <a href="/writers/{{post.author}}">{{post.author}}</a> (<span>{{post.views}}</span> Views)</p> 
     <p>{{post.content|safe}}</p>
 </div>
 

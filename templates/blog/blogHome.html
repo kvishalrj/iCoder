@@ -7,12 +7,16 @@
 {% block css %}
 
 <style>
-  .img {
+  /* .img {
     display: block;
     max-width: 600px;
     height: 400px;
     margin-top: 10px;
     margin-bottom: 10px;
+  } */
+
+  .blogCard {
+    min-height: 600px;
   }
 </style>
 
@@ -24,7 +28,28 @@
   <div class="row">
     <div class="col-9">
       <h2>Blog by iCoder</h2>
-      {% for post in allPosts %}
+      <div class="row justify-content-center">
+        {% for post in allPosts %}
+        <div class="mx-2 shadow my-4 blogCard" > 
+          <img src="/{{post.postImage}}" class="" alt="...">
+          <div class="card-body">
+            {% if user.is_authenticated %}
+            <a href="/writers/{{post.author}}" class="text-decoration-none"><b
+                class="d-inline-block mb-2 text-primary">Article by
+                {{post.author}} ({{post.views}} Views)</b></a>
+            {% else %}
+            <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+                {{post.author}} ({{post.views}} Views)</b></a>
+            {% endif %}
+            <h5 class="card-title">{{post.title}}</h5>
+            <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+            <p class="card-text">{{post.content|safe|truncatechars:500}}</p>
+            <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <!-- {% for post in allPosts %}
       <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative shadow">
         <div class="col p-4 d-flex flex-column position-static shadow">
           <a href="/writers/{{post.author}}" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
@@ -45,7 +70,7 @@
         </div>
       </div>
       </a>
-      {% endfor %}
+      {% endfor %} -->
     </div>
     <div class="col-3">
       <h3 class="my-1">Recent Posts</h3>
@@ -56,7 +81,7 @@
             <img src=" /{{post.postImage}} " class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title"> <strong>{{post.title}}</strong> </h5>
-              <p class="card-text">{{post.content | truncatechars:"100" | safe }}</p>
+              <p class="card-text">{{post.content | truncatechars:100|safe }}</p>
               <div class="my-3">
                 <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
                   Continue reading

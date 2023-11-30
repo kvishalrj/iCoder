@@ -3,6 +3,17 @@
 {% block title %} Home {% endblock title %}
 {% block homeactive %} text-light {% endblock homeactive %}
 
+{% block css %}
+<style>
+  .card-img-top {
+    min-height: 250px;
+    max-height: 250px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+</style>
+{% endblock css %}
+
 {% block body %}
 
 <header class="bg-dark py-5">
@@ -20,8 +31,9 @@
           </div>
         </div>
       </div>
-      <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center"><img class="img-fluid rounded-3 my-5"
-          src="static/img/happy2.jpg" alt="..." /></div>
+      <div class="col-xl-5 col-xxl-6 d-none d-xl-block text-center">
+        <img class="img-fluid rounded-3 my-5" src="static/img/happy2.jpg" alt="..." />
+      </div>
     </div>
   </div>
 </header>
@@ -41,34 +53,26 @@
       </div>
     </div>
 
-    <div class="row justify-content-center">
-
-      <div class="card-group">
-        {% for post in posts %}
-        <a href="/blog/{{post.slug}}" class="text-decoration-none">
-        <div class='col-12 col-sm-12 col-md-6 col-lg-4' id="col">
-          <div class="card shadow" style="margin-right: 20px">
-            <img src="/{{post.postImage}}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <a href="/writers/{{post.author}}" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
-                  {{post.author}} ({{post.views}} Views)</b></a>
-
-              <h4 class="mb-0 text-dark">{{post.title}}</h4>
-              <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-
-              <p class="text-dark">{{post.content|safe|truncatechars:"100"}}</p>
-              <div class="my-3">
-                <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
-                  Continue reading
-                </a>
-              </div>
-            </div>
-          </div>
+    <div class="flex justify-content-center">
+      {% for post in posts %}
+      <div class="mx-2 shadow col-3">
+        <img src="/{{post.postImage}}" class="card-img-top cardimg" alt="...">
+        <div class="card-body">
+          {% if user.is_authenticated %}
+          <a href="/writers/{{post.author}}" class="text-decoration-none"><b
+              class="d-inline-block mb-2 text-primary">Article by
+              {{post.author}} ({{post.views}} Views)</b></a>
+          {% else %}
+          <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+              {{post.author}} ({{post.views}} Views)</b></a>
+          {% endif %}
+          <h5 class="card-title">{{post.title}}</h5>
+          <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+          <p class="card-text">{{post.content|safe|truncatechars:80}}</p>
+          <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
         </div>
-      </a>
-        {% endfor %}
-
       </div>
+      {% endfor %}
     </div>
   </div>
 </section>

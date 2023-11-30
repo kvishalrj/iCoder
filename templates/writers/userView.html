@@ -4,64 +4,77 @@
 
 {% block aboutactive %} text-light {% endblock aboutactive %}
 
+{% block css %}
+<style>
+  .card {
+    min-height: 500px;
+    min-width: 350px;
+  }
+
+  .card-img-top {
+    min-height: 250px;
+    max-height: 250px;
+    min-width: 300px;
+    max-width: 300px;
+  }
+</style>
+{% endblock css %}
+
 {% block body %}
 
 <div class="container my-5 p-4">
-    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark row">
-      <div class="col-md-8 px-0">
-        <h1 class="display-4 fst-italic">{{writer.firstName}} {{writer.lastName}}</h1>
-        <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what’s most interesting in this post’s contents.</p>
-        <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
-      </div>
-      <div class='userImg col-md-4'>
-        <img src="/static/userimg/default_user.png" class="rounded w-75" alt="...">
-      </div>
+  <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark row">
+    <div class="col-md-8 px-0">
+      <h1 class="display-4 fst-italic">{{writer.firstName}} {{writer.lastName}}</h1>
+      <p class="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently
+        about what’s most interesting in this post’s contents.</p>
+      <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
     </div>
-  
-    <!-- Blog preview section-->
-<section class="py-5" id='allblogs'>
-  <div class="container px-5 my-5">
-    <div class="row gx-5 justify-content-center">
-      <div class="col-lg-8 col-xl-6">
-        <div class="text-center">
-          <h2 class="fw-bolder">Articles by {{writer.firstName}}</h2>
-          <p class="lead fw-normal text-muted mb-5">Here are articles from {{writer.firstName}}. Browse through to find
-            the article you love most.</p>
-        </div>
-      </div>
+    <div class='userImg col-md-4'>
+      <img src="/static/userimg/default_user.png" class="rounded w-75" alt="...">
     </div>
+  </div>
 
-    <div class="row justify-content-center">
-
-      <div class="card-group">
-        {% for post in posts %}
-        <a href="/blog/{{post.slug}}" class="text-decoration-none">
-        <div class='col-12 col-sm-12 col-md-6 col-lg-4' id="col">
-          <div class="card shadow" style="margin-right: 20px">
-            <img src="/{{post.postImage}}" class="card-img-top" alt="...">
-            <div class="card-body">
-              <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">({{post.views}} Views)</b></a>
-
-              <h4 class="mb-0 text-dark">{{post.title}}</h4>
-              <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-
-              <p class="text-dark">{{post.content|safe|truncatechars:"100"}}</p>
-              <div class="my-3">
-                <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
-                  Continue reading
-                </a>
-              </div>
+  <!-- Blog preview section-->
+  <div class="container">
+    <section class="py-5" id='allblogs'>
+      <div class="container px-5 my-5">
+        <div class="row gx-5 justify-content-center">
+          <div class="col-lg-8 col-xl-6">
+            <div class="text-center">
+              <h2 class="fw-bolder">Articles by {{writer.firstName}}</h2>
+              <p class="lead fw-normal text-muted mb-5">Here are articles from {{writer.firstName}}. Browse through to
+                find
+                the article you love most.</p>
             </div>
           </div>
         </div>
-      </a>
-        {% endfor %}
 
+        <div class="row justify-content-center">
+          {% for post in posts %}
+          <div class="card mx-2 shadow" style="width: 18rem;">
+            <img src="/{{post.postImage}}" class="card-img-top cardimg" alt="...">
+            <div class="card-body">
+              {% if user.is_authenticated %}
+              <a href="/writers/{{post.author}}" class="text-decoration-none"><b
+                  class="d-inline-block mb-2 text-primary">Article by
+                  {{post.author}} ({{post.views}} Views)</b></a>
+              {% else %}
+              <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+                  {{post.author}} ({{post.views}} Views)</b></a>
+              {% endif %}
+              <h5 class="card-title">{{post.title}}</h5>
+              <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+              <p class="card-text">{{post.content|safe|truncatechars:80}}</p>
+              <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
       </div>
-    </div>
+    </section>
   </div>
-</section>
-  
+
 </div>
 
 {% endblock body %}
