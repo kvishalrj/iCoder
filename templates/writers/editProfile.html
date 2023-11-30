@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %} Contact {% endblock title %}
+
+{% block contactactive %} text-light {% endblock contactactive %}
+
+{% block body %}
+
+<div class="container mt-5 p-5">
+    <h1>Edit Your Profile</h1>
+    <div class="my-4">
+        <h3>{{writer.firstName}} {{writer.lastName}}</h3>
+    </div>
+    <form action="/writers/profile/{{writer.firstName}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="bio" class="form-label">Write your bio here</label>
+            <textarea class="form-control border border-dark" id="bio" name="bio" rows="4" value="{{writer.bio}}"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="picture" class="form-label">Choose your picture</label>
+            <input class="form-control border border-dark" type="file" id="picture" name="picture">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+{% endblock body %}

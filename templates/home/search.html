@@ -4,37 +4,57 @@
 
 {% block blogactive %} active {% endblock blogactive %}
 
-{% block body %} 
+{% block css %}
+<style>
+  .card-img-top {
+    min-height: 250px;
+    max-height: 250px;
+    min-width: 380px;
+    max-width: 380px;
+  }
+</style>
+{% endblock css %}
+
+{% block body %}
 
 <div class="container my-3">
-    <h2>Search Results</h2>
-    {% if allPosts|length < 1 %}
-    <h5 class="mt-4">No search results found!</h5>
+  <h2>Search Results</h2>
+  {% if allPosts|length < 1 %} <h5 class="mt-4">No search results found!</h5>
     <p>Your search query: <b>{{query | truncatechars:70}}</b> did not match any documents.</p><br>
     <p><b>Suggestions:</b></p>
     <ul>
-        <li>Make sure that all words are spelled correctly.</li>
-        <li>Try different keywords.</li>
-        <li>Try more general keywords.</li>
-        <li>Try fewer keywords.</li>
+      <li>Make sure that all words are spelled correctly.</li>
+      <li>Try different keywords.</li>
+      <li>Try more general keywords.</li>
+      <li>Try fewer keywords.</li>
     </ul>
     {% endif %}
-    {% for post in allPosts  %}
-    <div class="row g-0 border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative">
-      <div class="col p-4 d-flex flex-column position-static">
-        <strong class="d-inline-block mb-2 text-primary-emphasis">Article by {{post.author}}</strong>
-        <h3 class="mb-0">{{post.title}}</h3>
-        <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
-        <p class="card-text mb-auto">{{post.content | truncatechars:500}}</p>
-          <div class="my-3">
-            <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary">
-                Continue reading
-              </a>
+
+    <div class="container">
+      <div class="row justify-content-left">
+        {% for post in allPosts %}
+        <div class="card mx-3 my-3 shadow" style="width: 25rem;">
+          <img src="/{{post.postImage}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            {% if user.is_authenticated %}
+            <a href="/writers/{{post.author}}" class="text-decoration-none"><b
+                class="d-inline-block mb-2 text-primary">Article by
+                {{post.author}} ({{post.views}} Views)</b></a>
+            {% else %}
+            <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+                {{post.author}} ({{post.views}} Views)</b></a>
+            {% endif %}
+            <h5 class="card-title">{{post.title}}</h5>
+            <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+            <p class="card-text">{{post.content|truncatechars:200}}</p>
+            <a href="blog/{{post.slug}}" class="btn btn-primary">Continue Reading</a>
           </div>
+        </div>
+        {% endfor %}
       </div>
+
     </div>
-    {% endfor %}
+
 </div>
-  
 
 {% endblock body %}
