@@ -54,7 +54,7 @@
           <ul class="dropdown-menu m-2" style="min-width: 120px;">
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
             <li><a class="dropdown-item" id="myLink" href="/writers/profile/{{ user.first_name }}">Profile</a></li>
-            <li><a class="dropdown-item" href="#">New Blog</a></li>
+            <li><a class="dropdown-item" href="/writers/newblog/{{ user.first_name }}">New Blog</a></li>
           </ul>
         </div>
         {% else %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %} Contact {% endblock title %}
+
+{% block contactactive %} text-light {% endblock contactactive %}
+
+{% block body %}
+
+<div class="container mt-5 p-5">
+    <h1>Edit Your Blog Here</h1>
+    <div class="mb-3">
+        <img src="/{{post.postImage}}" alt="" srcset="">
+    </div>
+    <form action="/writers/blogUpdate/{{post.slug}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="picture" class="form-label">Choose your picture</label>
+            <input class="form-control border border-dark" type="file" id="picture" name="picture">
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}">
+        </div>
+        <div class="mb-3">
+            <label for="slug" class="form-label">Slug</label>
+            <input class="form-control border border-dark" type="text" id="slug" name="slug" value="{{post.slug}}">
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Edit your post</label>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="4" >{{post.content}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+
+{% endblock body %}

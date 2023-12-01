@@ -55,8 +55,8 @@
           <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
           <p class="card-text">{{post.content|truncatechars:100}}</p>
           <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
-          <a href="/blog/{{post.slug}}" class="btn btn-primary my-2 mx-1">Edit</a>
-          <a href="#" class="btn btn-primary my-2">Delete</a>
+          <a href="/writers/edit-blog/{{post.slug}}" class="btn btn-primary my-2 mx-1">Edit</a>
+          <a href="/writers/delete-blog/{{post.slug}}" class="btn btn-primary my-2">Delete</a>
         </div>
       </div>
       {% endfor %}

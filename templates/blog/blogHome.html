@@ -9,8 +9,8 @@
   .card-img-top {
     min-height: 380px;
     max-height: 380px;
-    min-width: 910px;
-    max-width: 910px;
+    min-width: 890px;
+    max-width: 890px;
   }
 
   .scrollable-container {
@@ -27,6 +27,7 @@
   <div class="row">
     <div class="col-9 scrollable-container">
       <h2>Blog by iCoder</h2>
+      <div class="scrollable-container">
       {% for post in allPosts %}
       <div class="card mx-2 my-4 shadow">
         <img src="/{{post.postImage}}" class="card-img-top" alt="...">
@@ -47,8 +48,10 @@
       </div>
       {% endfor %}
     </div>
-    <div class="col-3 scrollable-container text-center">
+    </div>
+    <div class="col-3 text-center">
       <h2>Recent Blogs</h2>
+      <div class="scrollable-container text-center">
       {% for rpost in recentPosts %}
       <div class="card my-4" style="width: 17rem;">
         <img src="/{{rpost.postImage}}" class="card-img" alt="...">
@@ -59,6 +62,7 @@
         </div>
       </div>
       {% endfor %}
+    </div>
     </div>
   </div>
 </div>
