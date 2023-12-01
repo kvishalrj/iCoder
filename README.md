@@ -1,5 +1,5 @@
 
-<h1 style="text-align: center;">MyShop</h1>
+<h1 style="text-align: center;">iCoder</h1>
 <div align="center">
  <p>
   
@@ -20,10 +20,8 @@
  </p>
  </div>
 
- <h2 align='center'>This repo is about an ecommerce website using Django
+ <h2 align='center'>This repo is about a blog website using Django
 ⭐</h2>
-
-### Accepting for hacktoberfest 2023
 
 ## Tech used
 * HTML
@@ -31,11 +29,10 @@
 * Django
 * Bootstrap
 * SQLite
-* Liquid Template
-* Jquery
+* Jinja Template
 * Javascript
 ---
-![image](https://github.com/kvishalrj/MyShop/assets/98400348/3671cea6-2f8d-4272-ae6e-cc3d11b88262)
+![Screenshot (28)](https://github.com/kvishalrj/iCoder/assets/102026258/34f49f2f-ed8b-4d4e-9883-06234f3fa529)
 ---
 
 ## 👨‍💻 How to get started ?
