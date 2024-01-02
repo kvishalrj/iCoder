@@ -59,11 +59,11 @@
         <img src="/{{post.postImage}}" class="card-img-top" alt="...">
         <div class="card-body">
           {% if user.is_authenticated %}
-          <a href="/writers/{{post.author}}" class="text-decoration-none"><b
-              class="d-inline-block mb-2 text-primary">Article by
+          <a href="/writers/{{post.author}}"><b
+              class="d-inline-block mb-2 text-primary underline-hover">Article by
               {{post.author}} ({{post.views}} Views)</b></a>
           {% else %}
-          <a href="#" class="text-decoration-none"><b class="d-inline-block mb-2 text-primary">Article by
+          <a href="#"><b class="d-inline-block mb-2 text-primary">Article by
               {{post.author}} ({{post.views}} Views)</b></a>
           {% endif %}
           <h5 class="card-title">{{post.title}}</h5>

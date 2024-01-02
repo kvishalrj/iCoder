@@ -10,7 +10,6 @@ from writers.models import Writer
 
 def home(request):
     allPosts = Post.objects.all()
-
     trendPost = [post for post in allPosts]
     trendPost.sort(key=lambda p: p.views, reverse=True)
     trendPost = trendPost[:3]
