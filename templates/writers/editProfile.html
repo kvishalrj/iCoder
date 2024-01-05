@@ -15,12 +15,16 @@
         {% csrf_token %}
         <div class="mb-3">
             <label for="bio" class="form-label">Write your bio here</label>
-            <textarea class="form-control border border-dark" id="bio" name="bio" rows="4" value="{{writer.bio}}"></textarea>
+            <textarea class="form-control border border-dark" id="bio" name="bio" rows="4">{{writer.bio}}</textarea>
         </div>
         <div class="mb-3">
             <label for="picture" class="form-label">Choose your picture</label>
             <input class="form-control border border-dark" type="file" id="picture" name="picture">
         </div>
+
+        {% comment %} <div>
+            <img src="/media/{{writer.userImage}}" alt="">
+        </div> {% endcomment %}
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
