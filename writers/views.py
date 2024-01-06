@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from writers.models import Writer
@@ -30,13 +31,11 @@ def editProfile(request, slug):
 
 def profileUpdate(request, slug):
     if request.method=='POST':
-        bio = request.POST.get('bio')
-        picture = request.FILES.get('picture', 'blog/user/default_user.png')
         profile = Writer.objects.filter(firstName=slug).first()
-        if bio!="":
-            profile.bio = bio
-        if picture:
-            profile.userImage = picture
+        bio = request.POST.get('bio', profile.bio)
+        picture = request.FILES.get('picture', profile.userImage)
+        profile.bio  = bio
+        profile.userImage = picture
         profile.save()
         messages.success(request, 'Your profile has been successfully updated.')
         posts = Post.objects.filter(author=profile.firstName)
@@ -59,21 +58,22 @@ def editBlog(request, slug):
 
 def blogUpdate(request, slug):
     if request.method=='POST':
-        ptitle = request.POST.get('title')
-        ppicture = request.FILES.get('picture')
-        pslug = request.POST.get('slug')
-        pcontent = request.POST.get('content')
         post = Post.objects.filter(slug=slug).first()
+        ptitle = request.POST.get('title', post.title)
+        ppicture = request.FILES.get('picture', post.postImage)
+        pslug = request.POST.get('slug', post.slug)
+        pcontent = request.POST.get('content', post.content)
         post.title = ptitle
         post.slug = pslug
         post.content = pcontent
-        if ppicture:
-            post.postImage = ppicture
+        post.postImage = ppicture
         post.save()
         messages.success(request, 'Your post has been successfully updated.')
-        previous_url = request.META.get('HTTP_REFERER')
-        if previous_url:
-            return redirect(previous_url)
+        # Get the previous URL
+        previous_url = request.META.get('HTTP_REFERER', '/')
+        
+        # Redirect to the previous URL
+        return HttpResponseRedirect(previous_url)
 
 
 

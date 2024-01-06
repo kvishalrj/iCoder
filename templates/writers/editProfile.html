@@ -2,6 +2,10 @@
 
 {% block title %} Contact {% endblock title %}
 
+{% block css %}
+
+{% endblock css %}
+
 {% block contactactive %} text-light {% endblock contactactive %}
 
 {% block body %}
@@ -17,18 +21,45 @@
             <label for="bio" class="form-label">Write your bio here</label>
             <textarea class="form-control border border-dark" id="bio" name="bio" rows="4">{{writer.bio}}</textarea>
         </div>
+        
         <div class="mb-3">
             <label for="picture" class="form-label">Choose your picture</label>
-            <input class="form-control border border-dark" type="file" id="picture" name="picture">
+            <input class="form-control border border-dark" type="file" id="picture" name="picture" onchange="previewFile()">
         </div>
 
-        {% comment %} <div>
-            <img src="/media/{{writer.userImage}}" alt="">
-        </div> {% endcomment %}
+        <div class="mb-4" style="width: 300px; height: 300px" id="previewImage">
+            <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" alt="">
+        </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-
 {% endblock body %}
+
+{% block js %}
+
+<script>
+
+    function previewFile() {
+        var preview = document.getElementById('previewImage');
+        var picture = document.getElementById('picture');
+        var defaultImage = document.getElementById('defaultImage');
+    
+        var file = picture.files[0];
+    
+        if (file) {
+          var reader = new FileReader();
+    
+          reader.onloadend = function () {
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid">';
+            defaultImage.style.display = 'none';
+          };
+    
+          reader.readAsDataURL(file);
+        } 
+      }
+
+</script>
+
+{% endblock js %}
