@@ -69,11 +69,8 @@ def blogUpdate(request, slug):
         post.postImage = ppicture
         post.save()
         messages.success(request, 'Your post has been successfully updated.')
-        # Get the previous URL
-        previous_url = request.META.get('HTTP_REFERER', '/')
         
-        # Redirect to the previous URL
-        return HttpResponseRedirect(previous_url)
+        return redirect(f'/writers/profile/{post.author}')
 
 
 
