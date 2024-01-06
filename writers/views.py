@@ -61,6 +61,8 @@ def blogUpdate(request, slug):
         post = Post.objects.filter(slug=slug).first()
         ptitle = request.POST.get('title', post.title)
         ppicture = request.FILES.get('picture', post.postImage)
+        print(post.postImage)
+        print(ppicture)
         pslug = request.POST.get('slug', post.slug)
         pcontent = request.POST.get('content', post.content)
         post.title = ptitle

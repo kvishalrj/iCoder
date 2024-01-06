@@ -8,15 +8,19 @@
 
 <div class="container mt-5 p-5">
     <h1>Edit Your Blog Here</h1>
-    <div class="mb-3">
-        <img src="/{{post.postImage}}" alt="" srcset="">
-    </div>
+
     <form action="/writers/blogUpdate/{{post.slug}}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <div class="mb-4" style="width: 300px; height: 300px" id="previewImage">
+            <img src="/media/{{post.postImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" alt="">
+        </div>
+
         <div class="mb-3">
             <label for="picture" class="form-label">Choose your picture</label>
-            <input class="form-control border border-dark" type="file" id="picture" name="picture">
+            <input class="form-control border border-dark" type="file" id="picture" name="picture" onchange="previewFile()">
         </div>
+
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
             <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}">
@@ -34,5 +38,31 @@
     </form>
 </div>
 
-
 {% endblock body %}
+
+{% block js %}
+
+<script>
+
+    function previewFile() {
+        var preview = document.getElementById('previewImage');
+        var picture = document.getElementById('picture');
+        var defaultImage = document.getElementById('defaultImage');
+    
+        var file = picture.files[0];
+    
+        if (file) {
+          var reader = new FileReader();
+    
+          reader.onloadend = function () {
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid">';
+            defaultImage.style.display = 'none';
+          };
+    
+          reader.readAsDataURL(file);
+        } 
+      }
+
+</script>
+
+{% endblock js %}
