@@ -27,8 +27,8 @@
             <input class="form-control border border-dark" type="file" id="picture" name="picture" onchange="previewFile()">
         </div>
 
-        <div class="mb-4" style="width: 300px; height: 300px" id="previewImage">
-            <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" alt="">
+        <div class="mb-4" id="previewImage">
+            <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" style="width: 300px; height: 300px; object-fit: cover; object-position: top;" alt="">
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -52,7 +52,7 @@
           var reader = new FileReader();
     
           reader.onloadend = function () {
-            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid">';
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded" style="width: 300px; height: 300px; object-fit: cover; object-position: top;">';
             defaultImage.style.display = 'none';
           };
     
