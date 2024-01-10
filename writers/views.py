@@ -43,8 +43,16 @@ def profileUpdate(request, slug):
         return render(request, 'writers/profile.html', context)
 
 def newBlog(request, slug):
-    return render(request, 'writers/tiny.html')
+    author = {'name' : slug}
+    return render(request, 'writers/newBlog.html', author)
 
+def saveNewBlog(request, slug):
+    if request.method=='POST' and request.user.username==slug:
+        writer = Writer.objects.filter(firstName=slug).first()
+        posts = Post.objects.filter(author=writer.firstName)
+        context = {'writer' : writer, 'posts' : posts}
+        return render(request, 'writers/profile.html', context)
+    
 def deleteBlog(request, slug):
     post = Post.objects.filter(slug=slug).first()
     post.delete()
