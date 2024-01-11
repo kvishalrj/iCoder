@@ -7,13 +7,13 @@
 {% block body %}
 
 <div class="container mt-5 p-5">
-    <h1>Edit Your Blog Here</h1>
+    <h1 class="mb-4">Edit Your Blog Here</h1>
 
     <form action="/writers/blogUpdate/{{post.slug}}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div class="mb-4" style="width: 300px; height: 300px" id="previewImage">
-            <img src="/media/{{post.postImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" alt="">
+        <div class="mb-4" id="previewImage">
+            <img src="/media/{{post.postImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
         </div>
 
         <div class="mb-3">
@@ -55,11 +55,11 @@
           var reader = new FileReader();
     
           reader.onloadend = function () {
-            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid">';
-            {% comment %} defaultImage.style.display = 'none'; {% endcomment %}
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid" style="width: 600px; height: 400px; object-fit: cover;">';
+            defaultImage.style.display = 'none';
           };
     
-          {% comment %} reader.readAsDataURL(file); {% endcomment %}
+          reader.readAsDataURL(file);
         } 
       }
 
