@@ -48,6 +48,12 @@ def newBlog(request, slug):
 
 def saveNewBlog(request, slug):
     if request.method=='POST' and request.user.username==slug:
+        ptitle = request.POST.get('title')
+        ppicture = request.FILES.get('picture')
+        pcontent = request.POST.get('content')
+        pauthor = slug
+        pslug = request.POST.get('slug')
+        Post.objects.create(title=ptitle, postImage=ppicture, content=pcontent, author=pauthor, slug=pslug)
         writer = Writer.objects.filter(firstName=slug).first()
         posts = Post.objects.filter(author=writer.firstName)
         context = {'writer' : writer, 'posts' : posts}
@@ -69,10 +75,8 @@ def blogUpdate(request, slug):
         post = Post.objects.filter(slug=slug).first()
         ptitle = request.POST.get('title', post.title)
         ppicture = request.FILES.get('picture', post.postImage)
-        print(post.postImage)
-        print(ppicture)
-        pslug = request.POST.get('slug', post.slug)
         pcontent = request.POST.get('content', post.content)
+        pslug = request.POST.get('slug', post.slug)
         post.title = ptitle
         post.slug = pslug
         post.content = pcontent

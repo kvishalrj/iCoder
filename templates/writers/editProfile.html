@@ -18,12 +18,12 @@
     <form action="/writers/profileUpdate/{{writer.firstName}}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="bio" class="form-label">Write your bio here</label>
+            <label for="bio" class="form-label">Edit your bio here</label>
             <textarea class="form-control border border-dark" id="bio" name="bio" rows="4">{{writer.bio}}</textarea>
         </div>
         
         <div class="mb-3">
-            <label for="picture" class="form-label">Choose your picture</label>
+            <label for="picture" class="form-label">Change your picture</label>
             <input class="form-control border border-dark" type="file" id="picture" name="picture" onchange="previewFile()">
         </div>
 
