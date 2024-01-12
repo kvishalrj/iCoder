@@ -41,7 +41,7 @@
               {{post.author}} ({{post.views}} Views)</b></a>
           {% endif %}
           <h5 class="card-title">{{post.title}}</h5>
-          <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+          <div class="mb-1 text-primary">{{post.timeStamp}}</div>
           <p class="card-text">{{post.content|truncatechars:400}}</p>
           <a href="{{post.slug}}" class="btn btn-primary">Continue Reading</a>
         </div>
@@ -55,6 +55,7 @@
       {% for rpost in recentPosts %}
       <div class="card my-4" style="width: 17rem;">
         <img src="/media/{{rpost.postImage}}" class="card-img" alt="...">
+        <div class="mt-2 text-primary">{{rpost.timeStamp}}</div>
         <div class="card-body">
           <h5 class="card-title">{{rpost.title}}</h5>
           <p class="card-text">{{rpost.content|truncatewords:15}}</p>
