@@ -1,3 +1,5 @@
+from django.utils import timezone
+import pytz
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -48,17 +50,32 @@ def newBlog(request, slug):
 
 def saveNewBlog(request, slug):
     if request.method=='POST' and request.user.username==slug:
+
+        # Set the desired timezone (replace 'America/New_York' with your preferred timezone)
+        desired_timezone = pytz.timezone('Asia/Kolkata')
+
+        # Get the current time in the specified timezone
+        current_time = timezone.now().astimezone(desired_timezone)
+
+        # Format the current time
+        formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S%z')
+
+        # Print the result (optional)
+        print(formatted_time)
+
         ptitle = request.POST.get('title')
         ppicture = request.FILES.get('picture')
         pcontent = request.POST.get('content')
         pauthor = slug
         pslug = request.POST.get('slug')
-        Post.objects.create(title=ptitle, postImage=ppicture, content=pcontent, author=pauthor, slug=pslug)
-        writer = Writer.objects.filter(firstName=slug).first()
-        posts = Post.objects.filter(author=writer.firstName)
-        context = {'writer' : writer, 'posts' : posts}
-        return render(request, 'writers/profile.html', context)
-    
+        ptimestamp = formatted_time
+
+        Post.objects.create(title=ptitle, postImage=ppicture,content=pcontent, author=pauthor, slug=pslug, timeStamp=ptimestamp)
+        
+        messages.success(request, 'Your post has been uploaded successfully')
+
+        return profileView(request, slug)
+        
 def deleteBlog(request, slug):
     post = Post.objects.filter(slug=slug).first()
     post.delete()

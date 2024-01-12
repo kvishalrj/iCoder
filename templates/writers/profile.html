@@ -59,6 +59,9 @@
           <a href="/writers/delete-blog/{{post.slug}}" class="btn btn-primary my-2">Delete</a>
         </div>
       </div>
+      {% if forloop.counter0|divisibleby:3 and not forloop.last %}
+            <div class="w-100"></div> 
+      {% endif %}
       {% endfor %}
     </div>
   </div>
