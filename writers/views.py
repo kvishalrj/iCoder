@@ -39,10 +39,10 @@ def profileUpdate(request, slug):
         profile.bio  = bio
         profile.userImage = picture
         profile.save()
+        
         messages.success(request, 'Your profile has been successfully updated.')
-        posts = Post.objects.filter(author=profile.firstName)
-        context = {'writer' : profile, 'posts' : posts}
-        return render(request, 'writers/profile.html', context)
+
+        return redirect(f'/writers/profile/{slug}')
 
 def newBlog(request, slug):
     author = {'name' : slug}
@@ -61,7 +61,7 @@ def saveNewBlog(request, slug):
         formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S%z')
 
         # Print the result (optional)
-        print(formatted_time)
+        # print(formatted_time)
 
         ptitle = request.POST.get('title')
         ppicture = request.FILES.get('picture')
@@ -74,7 +74,7 @@ def saveNewBlog(request, slug):
         
         messages.success(request, 'Your post has been uploaded successfully')
 
-        return profileView(request, slug)
+        return redirect(f'/writers/profile/{slug}')
         
 def deleteBlog(request, slug):
     post = Post.objects.filter(slug=slug).first()
@@ -85,6 +85,7 @@ def deleteBlog(request, slug):
 def editBlog(request, slug):
     post = Post.objects.filter(slug=slug).first()
     context = {'post':post}
+    print(request.path)
     return render(request, 'writers/editBlog.html', context)
 
 def blogUpdate(request, slug):
@@ -99,8 +100,8 @@ def blogUpdate(request, slug):
         post.content = pcontent
         post.postImage = ppicture
         post.save()
+
         messages.success(request, 'Your post has been successfully updated.')
-        
         return redirect(f'/writers/profile/{post.author}')
 
 

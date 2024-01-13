@@ -17,6 +17,7 @@
     </div>
     <form action="/writers/profileUpdate/{{writer.firstName}}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
+
         <div class="mb-3">
             <label for="bio" class="form-label">Edit your bio here</label>
             <textarea class="form-control border border-dark" id="bio" name="bio" rows="4">{{writer.bio}}</textarea>

@@ -47,21 +47,18 @@
 
     <div class="row justify-content-center">
       {% for post in posts %}
-      <div class="card mx-2 shadow" style="width: 22rem;">
+      <div class="card mx-2 shadow" style="width: 20rem;">
         <img src="/media/{{post.postImage}}" class="card-img-top" alt="...">
         <div class="card-body">
           <p class="text-primary"><b>({{post.views}} Views)</b></p>
           <h5 class="card-title">{{post.title}}</h5>
-          <div class="mb-1 text-body-secondary">{{post.timeStamp}}</div>
+          <div class="mb-1 text-primary">{{post.timeStamp}}</div>
           <p class="card-text">{{post.content|truncatechars:100}}</p>
           <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
           <a href="/writers/edit-blog/{{post.slug}}" class="btn btn-primary my-2 mx-1">Edit</a>
           <a href="/writers/delete-blog/{{post.slug}}" class="btn btn-primary my-2">Delete</a>
         </div>
       </div>
-      {% if forloop.counter0|divisibleby:3 and not forloop.last %}
-            <div class="w-100"></div> 
-      {% endif %}
       {% endfor %}
     </div>
   </div>
@@ -70,3 +67,5 @@
 </div>
 
 {% endblock body %}
+
+          
