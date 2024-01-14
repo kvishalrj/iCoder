@@ -53,19 +53,20 @@
           <button class="btn btn-primary text-light" type="submit">Search</button>
         </form>
 
+
         {% if user.is_authenticated %}
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle mx-2" type="button" data-bs-toggle="dropdown"
             aria-expanded="false">
             {{ user.username }}
           </button>
-          <ul class="dropdown-menu m-2" style="min-width: 120px;">
+          <ul class="dropdown-menu m-2" style="min-width: 75px;">
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
             <li><a class="dropdown-item" id="myLink" href="/writers/profile/{{ user.first_name }}">Profile</a></li>
             <li><a class="dropdown-item" href="/writers/newblog/{{ user.first_name }}">New Blog</a></li>
           </ul>
-        </div>
-        {% else %}
+        </div> 
+        {% else %} 
         <!-- Button to trigger sign up modal -->
         <button type="button" class="btn btn-primary mx-2" data-bs-toggle="modal" data-bs-target="#signupModal">
           Sign Up
