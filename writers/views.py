@@ -1,6 +1,5 @@
 from django.utils import timezone
 import pytz
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from writers.models import Writer
