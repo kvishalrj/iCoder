@@ -13,26 +13,26 @@ def writers(request):
     return render(request, 'writers/writers.html', context)
 
 def userView(request, slug):
-    writer = Writer.objects.filter(firstName=slug).first()
-    posts = Post.objects.filter(author=writer.firstName)
+    writer = Writer.objects.filter(username=slug).first()
+    posts = Post.objects.filter(username=writer.username)
     context = {'writer' : writer, 'posts' : posts}
     return render(request, 'writers/userView.html', context)
 
 def profileView(request, slug):
     if request.user.username==slug:
-        writer = Writer.objects.filter(firstName=slug).first()
-        posts = Post.objects.filter(author=writer.firstName)
+        writer = Writer.objects.filter(username=slug).first()
+        posts = Post.objects.filter(username=writer.username)
         context = {'writer' : writer, 'posts' : posts}
         return render(request, 'writers/profile.html', context)
 
 def editProfile(request, slug):
-    writer = Writer.objects.filter(firstName=slug).first()
+    writer = Writer.objects.filter(username=slug).first()
     context = {'writer' : writer}
     return render(request, 'writers/editProfile.html', context)
 
 def profileUpdate(request, slug):
     if request.method=='POST':
-        profile = Writer.objects.filter(firstName=slug).first()
+        profile = Writer.objects.filter(username=slug).first()
         bio = request.POST.get('bio', profile.bio)
         picture = request.FILES.get('picture', profile.userImage)
         profile.bio  = bio
@@ -44,8 +44,9 @@ def profileUpdate(request, slug):
         return redirect(f'/writers/profile/{slug}')
 
 def newBlog(request, slug):
-    author = {'name' : slug}
-    return render(request, 'writers/newBlog.html', author)
+    writer = Writer.objects.filter(username=slug).first()
+    writer = {'writer' : writer}
+    return render(request, 'writers/newBlog.html', writer)
 
 def saveNewBlog(request, slug):
     if request.method=='POST' and request.user.username==slug:
@@ -62,29 +63,25 @@ def saveNewBlog(request, slug):
         # Print the result (optional)
         # print(formatted_time)
 
+        writer = Writer.objects.filter(username=slug).first()
+
         ptitle = request.POST.get('title')
         ppicture = request.FILES.get('picture')
         pcontent = request.POST.get('content')
-        pauthor = slug
+        pauthor = writer.firstName
         pslug = request.POST.get('slug')
         ptimestamp = formatted_time
+        pusername = slug
 
-        Post.objects.create(title=ptitle, postImage=ppicture,content=pcontent, author=pauthor, slug=pslug, timeStamp=ptimestamp)
+        Post.objects.create(username=pusername, title=ptitle, postImage=ppicture,content=pcontent, author=pauthor, slug=pslug, timeStamp=ptimestamp)
         
         messages.success(request, 'Your post has been uploaded successfully')
 
         return redirect(f'/writers/profile/{slug}')
-        
-def deleteBlog(request, slug):
-    post = Post.objects.filter(slug=slug).first()
-    post.delete()
-    messages.success(request, 'Your post has been deleted successfully')
-    return redirect(request.META['HTTP_REFERER'])
 
 def editBlog(request, slug):
     post = Post.objects.filter(slug=slug).first()
     context = {'post':post}
-    print(request.path)
     return render(request, 'writers/editBlog.html', context)
 
 def blogUpdate(request, slug):
@@ -101,9 +98,13 @@ def blogUpdate(request, slug):
         post.save()
 
         messages.success(request, 'Your post has been successfully updated.')
-        return redirect(f'/writers/profile/{post.author}')
+        return redirect(f'/writers/profile/{post.username}')
 
-
+def deleteBlog(request, slug):
+    post = Post.objects.filter(slug=slug).first()
+    post.delete()
+    messages.success(request, 'Your post has been deleted successfully')
+    return redirect(f'/writers/profile/{request.user.username}')
 
 
     

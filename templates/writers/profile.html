@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %} Writers {% endblock title %}
+{% block title %} My Account {% endblock title %}
 
-{% block aboutactive %} text-light {% endblock aboutactive %}
+{% block myaccountactive %} text-light {% endblock myaccountactive %}
 
 {% block css %}
 <style>
@@ -27,8 +27,8 @@
         <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded" style="width: 300px; height: 300px; object-fit: cover; object-position: top;" alt="">
       </div>
       <div class="row justify-content-center">
-      <a href="/writers/edit-profile/{{writer.firstName}}" class="btn btn-primary mt-5 w-25 mx-2">Edit Profile</a>
-      <a href="/writers/newblog/{{writer.firstName}}" class="btn btn-primary mt-5 w-25 mx-2">Write a new blog</a>
+      <a href="/writers/edit-profile/{{writer.username}}" class="btn btn-primary mt-5 w-25 mx-2">Edit Profile</a>
+      <a href="/writers/newblog/{{writer.username}}" class="btn btn-primary mt-5 w-25 mx-2">Write a new blog</a>
     </div>
     </div>
 

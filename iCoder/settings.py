@@ -87,6 +87,19 @@ DATABASES = {
 }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'iCoder',
+#         'CLIENT': {
+#             'host': 'mongodb+srv://kvikram2022:vkmongodb2024@icoder.ui2176v.mongodb.net/',
+#             'username': 'kvikram2022',
+#             'password': 'vkmongodb2024'
+#         }
+#     }
+# }
+
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

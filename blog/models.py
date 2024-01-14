@@ -5,6 +5,7 @@ from django.utils.timezone import now
 # Create your models here.
 class Post(models.Model):
     sno = models.AutoField(primary_key=True)
+    username = models.CharField(max_length=15, default="")
     title = models.CharField(max_length=255)
     postImage  = models.ImageField(upload_to='static/img', default='static/img/default.jpg')
     content = models.TextField()

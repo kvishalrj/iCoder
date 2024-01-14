@@ -42,10 +42,18 @@
             <a class="nav-link {% block blogactive %} {% endblock blogactive %}" aria-current="page"
               href="/blog">Blog</a>
           </li>
+
+          {% if user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link {% block contactactive %} {% endblock contactactive %}" aria-current="page"
               href="/contact">Contact Us</a>
           </li>
+          
+          <li class="nav-item">
+            <a class="nav-link {% block myaccountactive %} {% endblock myaccountactive %}" aria-current="page"
+              href="/writers/profile/{{ user.username }}">My Account</a>
+          </li>
+          {% endif %}
         </ul>
 
         <form method="get" action="/search" class="d-flex" role="search">
@@ -60,10 +68,10 @@
             aria-expanded="false">
             {{ user.username }}
           </button>
-          <ul class="dropdown-menu m-2" style="min-width: 75px;">
+          <ul class="dropdown-menu m-2" style="min-width: 125px;">
             <li><a class="dropdown-item" href="/logout">Logout</a></li>
-            <li><a class="dropdown-item" id="myLink" href="/writers/profile/{{ user.first_name }}">Profile</a></li>
-            <li><a class="dropdown-item" href="/writers/newblog/{{ user.first_name }}">New Blog</a></li>
+            <li><a class="dropdown-item" id="myLink" href="/writers/profile/{{ user.username }}">Profile</a></li>
+            <li><a class="dropdown-item" href="/writers/newblog/{{ user.username }}">New Blog</a></li>
           </ul>
         </div> 
         {% else %} 
