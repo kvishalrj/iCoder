@@ -5,19 +5,23 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from blog.models import Post
 from writers.models import Writer
+from django.views import View
 
-# HTML Pages
 
-def home(request):
-    allPosts = Post.objects.all()
-    trendPost = [post for post in allPosts]
-    trendPost.sort(key=lambda p: p.views, reverse=True)
-    trendPost = trendPost[:3]
-    context = {'posts' : trendPost}
-    return render(request, 'home/home.html', context)
+class HomeView(View):
+    def get(self, request):
+        allPosts = Post.objects.all()
+        trendPost = [post for post in allPosts]
+        trendPost.sort(key=lambda p: p.views, reverse=True)
+        trendPost = trendPost[:3]
+        context = {'posts' : trendPost}
+        return render(request, 'home/home.html', context)
+    
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'home/contact.html')
 
-def contact(request):
-    if request.method=='POST':
+    def post(self, request):
         name = request.POST['name']
         email = request.POST['email']
         phone = request.POST['phone']
@@ -29,31 +33,33 @@ def contact(request):
             contact = Contact(name=name, email=email, phone=phone, content=content)
             contact.save()
             messages.success(request, 'Your message has been sent successfully!')
-    
-    return render(request, 'home/contact.html')
 
-def search(request):
-    query = request.GET['query']
-    if len(query)==0:
-        messages.warning(request, "Enter your search first!")
-        return redirect(request.META['HTTP_REFERER'])
-    if len(query)>78:
-        allPosts = {}
-    else:
-        allPostTitle = Post.objects.filter(title__icontains=query)
-        allPostContent = Post.objects.filter(content__icontains=query)
-        allPosts = allPostTitle.union(allPostContent)
-    
-    if len(allPosts)==0:
-        messages.warning(request, "No search results found!")
-    params = {'allPosts' : allPosts, 'query' : query}
-    return render(request, 'home/search.html', params)
+        return redirect('/')
 
-# Authentication APIs
+class SearchView(View):
+    def get(self, request):
+        query = request.GET['query']
+        if len(query)==0:
+            messages.warning(request, "Enter your search first!")
+            return redirect(request.META['HTTP_REFERER'])
+        if len(query)>78:
+            allPosts = {}
+        else:
+            allPostTitle = Post.objects.filter(title__icontains=query)
+            allPostContent = Post.objects.filter(content__icontains=query)
+            allPosts = allPostTitle.union(allPostContent)
+        
+        if len(allPosts)==0:
+            messages.warning(request, "No search results found!")
+        params = {'allPosts' : allPosts, 'query' : query}
+        return render(request, 'home/search.html', params)
 
-def handleSignup(request):
-    if request.method == 'POST':
-        # get the post parameters
+class SignupView(View):
+    def get(self, request):
+        messages.error(request, 'Error while SignUp')
+        return HttpResponse('404 - Error')
+        
+    def post(self, request):
         username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
@@ -83,11 +89,13 @@ def handleSignup(request):
         mywriter.save()
         messages.success(request, 'Your account has been successfully created.')
         return redirect('home')
-    else:
+ 
+class LoginView(View):
+    def get(self, request):
+        messages.success(request, 'Error while Login')
         return HttpResponse('404 - Error')
-    
-def handleLogin(request):
-    if request.method=='POST':
+
+    def post(self, request):
         loginusername = request.POST['loginusername']
         loginpass = request.POST['loginpass']
 
@@ -100,11 +108,9 @@ def handleLogin(request):
         else:
             messages.error(request, 'Invalid credentials, Please try again...')
             return redirect('home')
-    else:
-        return HttpResponse('404 - Error')
 
-def handleLogout(request):
-    logout(request)
-    messages.success(request, 'Successfully logged out')
-    return redirect('home')
-    
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        messages.success(request, 'Successfully logged out')
+        return redirect('home')

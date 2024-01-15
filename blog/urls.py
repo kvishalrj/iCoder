@@ -5,8 +5,8 @@ from blog import views
 urlpatterns = [
 
     # API to post comment
-    path('postComment', views.postComment, name='postComment'),
+    path('postComment', views.PostCommentView.as_view(), name='postComment'),
 
-    path('', views.blogHome, name='blogHome'),
-    path('<str:slug>', views.blogPost, name='blogPost')
+    path('', views.BlogHomeView.as_view(), name='blogHome'),
+    path('<str:slug>', views.BlogPostView.as_view(), name='blogPost')
 ]
