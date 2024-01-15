@@ -63,7 +63,12 @@
     {% for comment in comments %}
     <div class="row my-3">
         <div class="col-md-1">
-            <img class="rounded mx-auto d-block w-100 p-2" src="/static/userimg/user.png" alt="user">
+            {% comment %} {% for writer in writersComment %}
+                {% if writer.username == comment.user.username %} {% endcomment %}
+                    <p>{{writer.username}}</p>
+                    <img class="rounded mx-auto d-block p-2 w-100" src="/static/userimg/user.png" onerror="/static/userimg/user.png" alt="user">
+                {% comment %} {% endif %}
+            {% endfor %} {% endcomment %}
         </div>
         <div class="col-md-11 border border-danger rounded">
             <div class="comment my-2">
@@ -108,7 +113,11 @@
                 {% for v in val %}
                 <div class="row me-2">
                     <div class="col-md-1">
-                        <img class="rounded mx-auto d-block w-75 p-2" src="/static/userimg/user.png" alt="user">
+                        {% comment %} {% for writer in writersReply %}
+                            {% if writer.username == v.user.username %} {% endcomment %}
+                            <img class="rounded mx-auto d-block w-75 p-2" src="/static/userimg/user.png" onerror="/static/userimg/user.png" alt="user">
+                            {% comment %} {% endif %}
+                        {% endfor %} {% endcomment %}
                     </div>
                     <div class="col-md-11 border border-primary rounded">
                         <div class="comment my-2">

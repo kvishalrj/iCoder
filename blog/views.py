@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from blog.models import Post, BlogComment
+from writers.models import Writer
 from django.contrib import messages
 from django.utils import timezone
 from datetime import datetime
@@ -31,13 +32,34 @@ class BlogPostView(View):
         replies = BlogComment.objects.filter(post=post).exclude(parent=None)
         reply_dict = {}
 
+        usernamesComment = set()
+        usernamesReply = set()
+
+        writersComment = Writer.objects.filter(username__in=usernamesComment)
+        writersReply = Writer.objects.filter(username__in=usernamesReply)
+
+        for comment in comments:
+            usernamesComment.add(comment.user.username)
+
         for reply in replies:
+            usernamesReply.add(reply.user.username)
             if reply.parent.sno not in reply_dict.keys():
                 reply_dict[reply.parent.sno] = [reply]
             else:
                 reply_dict[reply.parent.sno].append(reply)
 
-        context = {'post': post, 'comments': comments, 'replyDict': reply_dict, 'user': request.user}
+        context = {
+            'post': post, 
+            'comments': comments, 
+            'replyDict': reply_dict, 
+            'user': request.user, 
+            'writersComment': writersComment,
+            'writersReply': writersReply
+            }
+        
+        print(usernamesReply)
+        print(usernamesComment)
+        
         return render(request, 'blog/blogPost.html', context)
 
 class PostCommentView(View):
