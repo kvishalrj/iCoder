@@ -53,7 +53,7 @@
           <p class="text-primary"><b>({{post.views}} Views)</b></p>
           <h5 class="card-title">{{post.title}}</h5>
           <div class="mb-1 text-primary">{{post.timeStamp}}</div>
-          <p class="card-text">{{post.content|truncatechars:100}}</p>
+          <p class="card-text" style="height: 4rem;">{{post.content|truncatechars:100}}</p>
           <a href="/blog/{{post.slug}}" class="btn btn-primary my-2">Continue Reading</a>
           <a href="/writers/edit-blog/{{post.slug}}" class="btn btn-warning my-2 mx-2">Edit</a>
           <a href="/writers/delete-blog/{{post.slug}}" class="btn btn-danger my-2">Delete</a>

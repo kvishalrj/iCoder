@@ -26,10 +26,10 @@
     <div class="row justify-content-left">
       {% for writer in users %}
       <div class="card mx-3 my-2" style="width: 18rem;">
-        <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="card-img-top" alt="...">
+        <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="card-img-top" style="width: 262px; height: 250px; object-fit: cover; object-position: top;" alt="...">
         <div class="card-body">
           <h5 class="card-title">{{writer.firstName}} {{writer.lastName}}</h5>
-          <p class="card-text">{{writer.bio|truncatewords:10}}</p>
+          <p class="card-text" style="height: 3rem;">{{writer.bio|truncatewords:10}}</p>
           {% if user.is_authenticated %}
           <a href="/writers/{{writer.username}}" class="btn btn-primary">Know More...</a>
           {% else %}

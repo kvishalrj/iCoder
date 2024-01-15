@@ -86,13 +86,14 @@ DATABASES = {
     }
 }
 
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
 #         'NAME': 'iCoder',
+#         'ENFORCE_SCHEMA': True,
 #         'CLIENT': {
 #             'host': 'mongodb+srv://kvikram2022:vkmongodb2024@icoder.ui2176v.mongodb.net/',
+#             'port': 27017,
 #             'username': 'kvikram2022',
 #             'password': 'vkmongodb2024'
 #         }

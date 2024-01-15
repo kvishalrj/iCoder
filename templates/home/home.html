@@ -68,7 +68,7 @@
           {% endif %}
           <h5 class="card-title">{{post.title}}</h5>
           <div class="mb-1 text-primary">{{post.timeStamp}}</div>
-          <p class="card-text">{{post.content|truncatechars:200}}</p> 
+          <p class="card-text" style="height: 8rem;">{{post.content|truncatechars:200}}</p> 
           <a href="blog/{{post.slug}}" class="btn btn-primary">Continue Reading</a>
         </div>
       </div>
