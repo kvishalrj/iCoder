@@ -53,8 +53,7 @@ class NewBlogView(View):
         writer = {'writer' : writer}
         return render(request, 'writers/newBlog.html', writer)
     
-    def post(self, request, slug):
-            
+    def post(self, request, slug): 
         desired_timezone = pytz.timezone('Asia/Kolkata')
         current_time = timezone.now().astimezone(desired_timezone)
         formatted_time = current_time.strftime('%Y-%m-%d %H:%M:%S%z')
