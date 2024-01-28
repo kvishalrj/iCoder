@@ -10,15 +10,14 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool)
+DEBUG = os.environ.get("DEBUG") != "False"
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [".vercel.app", ".now.sh", "*"]
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,11 +60,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'iCoder.wsgi.application'
 
+
 DATABASE_URL = config('DATABASE_URL')
 
+
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600) # type: ignore
+    'default': dj_database_url.parse(
+        os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -94,9 +101,6 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
