@@ -13,7 +13,7 @@
         {% csrf_token %}
 
         <div class="mb-4" id="previewImage">
-            <img src="/media/{{post.postImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
+            <img src="/media/{{post.postImage}}" onerror="this.src='/static/img/blog.png'" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
         </div>
 
         <div class="mb-3">
