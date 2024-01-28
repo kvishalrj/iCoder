@@ -4,18 +4,13 @@ from django.contrib.messages import constants as messages
 import dj_database_url
 from decouple import config
 
-
-from dotenv import load_dotenv
-load_dotenv()
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = os.environ.get("DEBUG") != "False"
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = [".vercel.app", ".now.sh", "*"]
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,20 +55,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'iCoder.wsgi.application'
 
-
 DATABASE_URL = config('DATABASE_URL')
 
-
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600), # type: ignore
 }
-
-STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -102,6 +88,9 @@ STATIC_URL = 'static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
