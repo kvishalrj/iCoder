@@ -57,8 +57,8 @@ class BlogPostView(View):
             'writersReply': writersReply
             }
         
-        print(usernamesReply)
-        print(usernamesComment)
+        # print(usernamesReply)
+        # print(usernamesComment)
         
         return render(request, 'blog/blogPost.html', context)
 
