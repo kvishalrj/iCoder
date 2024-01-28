@@ -9,7 +9,7 @@
 * Python
 * Django
 * Bootstrap
-* SQLite
+* PostgreSQL
 * Jinja Template
 * Javascript
 ---
