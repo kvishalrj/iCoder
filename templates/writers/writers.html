@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %} Writers {% endblock title %}
+
+{% block aboutactive %} text-light {% endblock aboutactive %}
+
+{% block body %}
+
+
+<div class="bg-dark">
+  <section class="py-5 text-center container">
+    <div class="row py-lg-5">
+      <div class="col-lg-6 col-md-8 mx-auto">
+        <h1 class="fw-light text-white">Article Writers</h1>
+        <p class="lead text-white">Something short and leading about the collection below—its contents, the creator,
+          etc. Make it short and sweet, but not too short so folks don’t simply skip over it entirely.</p>
+        <p>
+          <a href="/blog" class="btn btn-primary my-2">Go to blog</a>
+          <a href="/contact" class="btn btn-secondary my-2">Contact Us</a>
+        </p>
+      </div>
+    </div>
+  </section>
+  <div class="border border-white w-100 h-10"></div>
+  <div class="container">
+    <div class="row justify-content-left">
+      {% for writer in users %}
+      <div class="card mx-3 my-2" style="width: 18rem;">
+        <img src="/media/{{writer.userImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="card-img-top" style="width: 262px; height: 250px; object-fit: cover; object-position: top;" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{writer.firstName}} {{writer.lastName}}</h5>
+          <p class="card-text" style="height: 3rem;">{{writer.bio|truncatewords:10}}</p>
+          {% if user.is_authenticated %}
+          <a href="/writers/{{writer.username}}" class="btn btn-primary">Know More...</a>
+          {% else %}
+          <button class="btn btn-primary" disabled>Know More...</button>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock body %}

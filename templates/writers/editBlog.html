@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %} My Account {% endblock title %}
+
+{% block myaccountactive %} text-light {% endblock myaccountactive %}
+
+{% block body %}
+
+<div class="container mt-5 p-5">
+    <h1 class="mb-4">Edit Your Blog Here</h1>
+
+    <form action="/writers/edit-blog/{{post.slug}}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-4" id="previewImage">
+            <img src="/media/{{post.postImage}}" onerror="this.src='/media/blog/user/default_user.png'" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
+        </div>
+
+        <div class="mb-3">
+            <label for="picture" class="form-label">Change your picture</label>
+            <input class="form-control border border-dark" type="file" id="picture" name="picture" onchange="previewFile()">
+        </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Edit Title</label>
+            <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}">
+        </div>
+        <div class="mb-3">
+            <label for="slug" class="form-label">Edit Slug</label>
+            <input class="form-control border border-dark" type="text" id="slug" name="slug" value="{{post.slug}}">
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Edit your post</label>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="4" >{{post.content}}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock body %}
+
+{% block js %}
+
+<script>
+
+    function previewFile() {
+        var preview = document.getElementById('previewImage');
+        var picture = document.getElementById('picture');
+        var defaultImage = document.getElementById('defaultImage');
+    
+        var file = picture.files[0];
+    
+        if (file) {
+          var reader = new FileReader();
+    
+          reader.onloadend = function () {
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded img-fluid" style="width: 600px; height: 400px; object-fit: cover;">';
+            defaultImage.style.display = 'none';
+          };
+    
+          reader.readAsDataURL(file);
+        } 
+      }
+
+</script>
+
+{% endblock js %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %} Blog Post {% endblock title %}
+
+{% block blogactive %} text-light {% endblock blogactive %}
+
+{% block css %}
+<style>
+.blog-container{
+    margin-top: 70px;
+    margin-bottom: 50px;
+}
+
+.card-img{
+    min-width: 1295px;
+    max-width: 1295px;
+    min-height: 400px;
+    max-height: 400px;
+}
+</style>
+{% endblock css %}
+
+{% block body %}
+
+{% load humanize %}
+
+<div class="container">
+    <div class="card blog-container">
+        <img src="/media/{{post.postImage}}" class="card-img" alt="...">
+        <div class="card-body">
+        {% if user.is_authenticated %}
+          <a href="/writers/{{post.username}}"><b
+              class="d-inline-block mb-2 text-primary underline-hover">Article by
+              {{post.author}} ({{post.views}} Views)</b></a>
+          {% else %}
+          <a href="#"><b class="d-inline-block mb-2 text-primary">Article by
+              {{post.author}} ({{post.views}} Views)</b></a>
+          {% endif %}
+          <div class="mb-1 text-primary">{{post.timeStamp}}</div>
+          <h1 class="card-title mt-4">{{post.title}}</h1>
+          <p class="card-text">{{post.content}}</p>
+        </div>
+      </div>
+</div>
+
+<div class="container">
+    <h3>Comments ({{comments.count}})</h3>
+    <div class="my-2">
+        {% if user.is_authenticated %}
+        <form action="/blog/postComment" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="postSno" value="{{post.sno}}">
+            <input type="hidden" name="postSlug" value="{{post.slug}}">
+            <input type="hidden" name="parentSno" value="">
+            <div class="mb-3">
+                <input type="text" class="form-label" name="comment" placeholder="Enter comment here">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% else %}
+        <p>Please login to post comments</p>
+        {% endif %}
+    </div>
+
+    {% for comment in comments %}
+    <div class="row my-3">
+        <div class="col-md-1">
+            {% comment %} {% for writer in writersComment %}
+                {% if writer.username == comment.user.username %} {% endcomment %}
+                    <p>{{writer.username}}</p>
+                    <img class="rounded mx-auto d-block p-2 w-100" src="/static/userimg/user.png" onerror="/static/userimg/user.png" alt="user">
+                {% comment %} {% endif %}
+            {% endfor %} {% endcomment %}
+        </div>
+        <div class="col-md-11 border border-danger rounded">
+            <div class="comment my-2">
+                <b>{{comment.user.username}} </b> <span class="badge bg-secondary">{{comment.timestamp|naturaltime}}</span>
+                <div>
+                    {{comment.comment}}
+                </div>
+            </div>
+
+            {% if user.is_authenticated %}
+            <div class="reply mx-0 my-2">
+                <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replyBox{{comment.sno}}" aria-expanded="false"
+                    aria-controls="replyBox{{comment.sno}}">
+                    Reply
+                </button>
+                <div class="collapse my-2" id="replyBox{{comment.sno}}">
+                    <div class="card card-body">
+                        <form action="/blog/postComment" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="postSno" value="{{post.sno}}">
+                            <input type="hidden" name="postSlug" value="{{post.slug}}">
+                            <input type="hidden" name="parentSno" value="{{comment.sno}}">
+                            <div class="mb-3">
+                                <input type="text" class="form-label" name="comment" placeholder="Reply here">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#replyBox{{comment.sno}}" aria-expanded="false"
+                    aria-controls="replyBox{{comment.sno}}" disabled>
+                    Login to reply
+                </button>
+            {% endif %}
+            <div class="replies my-2">
+                {% for key, val in replyDict.items %}
+                {% if key == comment.sno %}
+                {% for v in val %}
+                <div class="row me-2">
+                    <div class="col-md-1">
+                        {% comment %} {% for writer in writersReply %}
+                            {% if writer.username == v.user.username %} {% endcomment %}
+                            <img class="rounded mx-auto d-block w-75 p-2" src="/static/userimg/user.png" onerror="/static/userimg/user.png" alt="user">
+                            {% comment %} {% endif %}
+                        {% endfor %} {% endcomment %}
+                    </div>
+                    <div class="col-md-11 border border-primary rounded">
+                        <div class="comment my-2">
+                            <b>{{v.user.username}} </b> <span class="badge bg-secondary">{{v.timestamp|naturaltime}}</span>
+                            <div>
+                                {{v.comment}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock body %}
