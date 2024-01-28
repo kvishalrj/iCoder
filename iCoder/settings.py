@@ -3,8 +3,9 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import dj_database_url
 from decouple import config
-from dotenv import load_dotenv
 
+
+from dotenv import load_dotenv
 load_dotenv()
 
 
@@ -17,7 +18,6 @@ DEBUG = os.environ.get("DEBUG") != "False"
 ALLOWED_HOSTS = [".vercel.app", ".now.sh", "*"]
 
 INSTALLED_APPS = [
-    "whitenoise.runserver_nostatic",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
