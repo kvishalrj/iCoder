@@ -55,6 +55,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'iCoder.wsgi.application'
 
+CLOUDINARY_URL = config('CLOUDINARY_URL')
+
 DATABASE_URL = config('DATABASE_URL')
 
 DATABASES = {

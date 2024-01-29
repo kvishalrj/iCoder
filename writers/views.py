@@ -6,6 +6,8 @@ from writers.models import Writer
 from blog.models import Post
 from django.contrib import messages
 from django.views import View
+import cloudinary
+from cloudinary.uploader import upload
 
 
 class WritersView(View):
@@ -39,8 +41,14 @@ class EditProfileView(View):
         profile = Writer.objects.filter(username=slug).first()
         bio = request.POST.get('bio', profile.bio)
         picture = request.FILES.get('picture', profile.userImage)
+
+        # Upload the image to Cloudinary
+        result = upload(picture, folder='iCoder/media/users')
+        # 'result' will contain information about the uploaded image, including its public URL
+        public_url = result['secure_url']
+
         profile.bio  = bio
-        profile.userImage = picture
+        profile.userImage = public_url
         profile.save()
         
         messages.success(request, 'Your profile has been successfully updated.')
