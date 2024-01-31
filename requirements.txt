@@ -1,3 +1,4 @@
+cloudinary==1.38.0
 asgiref==3.7.2
 dj-database-url==2.1.0
 Django==4.1
