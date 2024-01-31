@@ -57,9 +57,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'iCoder.wsgi.application'
 
 cloudinary.config(
-    cloud_name='daevpuhyp',
-    api_key='561874755959424',
-    api_secret='qU700-aEiQFCa6Vw8AExM2sinWc'
+    cloud_name=config('cloud_name'),
+    api_key=config('api_key'),
+    api_secret=config('api_secret')
 )
 
 DATABASE_URL = config('DATABASE_URL')
