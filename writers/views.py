@@ -75,12 +75,13 @@ class NewBlogView(View):
         writer = Writer.objects.filter(username=slug).first()
 
         ptitle = request.POST.get('title')
+        pslug = request.POST.get('slug')
         ppicture = request.FILES.get('picture')
 
         # Upload the file to Cloudinary
         upload_result = cloudinary.uploader.upload(
             ppicture,
-            public_id=f"iCoder/media/users/{slug}",
+            public_id=f"iCoder/media/posts/{pslug}",
             overwrite=True,
             resource_type="image"
         )
@@ -90,7 +91,6 @@ class NewBlogView(View):
 
         pcontent = request.POST.get('content')
         pauthor = writer.firstName
-        pslug = request.POST.get('slug')
         ptimestamp = formatted_time
         pusername = slug
 
