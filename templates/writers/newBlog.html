@@ -13,7 +13,7 @@
         {% csrf_token %}
 
         <div class="mb-4" id="previewImage">
-            <img src="/media/{{post.postImage}}" onerror="this.src='/static/img/blog.png'" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
+            <img src="/static/img/blog.png" class="rounded img-fluid" id="defaultImage" style="width: 600px; height: 400px; object-fit: cover;" alt="">
         </div>
 
         <div class="mb-3">
@@ -31,7 +31,7 @@
         </div>
         <div class="mb-3">
             <label for="bio" class="form-label">Write your post here</label>
-            <textarea class="form-control border border-dark" id="content" name="content" rows="4" >{{post.content}}</textarea>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="4" ></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

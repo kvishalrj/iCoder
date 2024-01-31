@@ -3,6 +3,7 @@ from pathlib import Path
 from django.contrib.messages import constants as messages
 import dj_database_url
 from decouple import config
+import cloudinary
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -55,7 +56,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'iCoder.wsgi.application'
 
-CLOUDINARY_URL = config('CLOUDINARY_URL')
+cloudinary.config(
+    cloud_name='daevpuhyp',
+    api_key='561874755959424',
+    api_secret='qU700-aEiQFCa6Vw8AExM2sinWc'
+)
 
 DATABASE_URL = config('DATABASE_URL')
 
@@ -88,8 +93,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')

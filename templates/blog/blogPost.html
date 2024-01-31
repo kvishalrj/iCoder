@@ -26,7 +26,7 @@
 
 <div class="container">
     <div class="card blog-container">
-        <img src="/media/{{post.postImage}}" class="card-img" alt="...">
+        <img src="{{post.postImage}}" onerror="this.src='/static/img/blog.png'" class="card-img" alt="...">
         <div class="card-body">
         {% if user.is_authenticated %}
           <a href="/writers/{{post.username}}"><b

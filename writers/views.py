@@ -6,8 +6,8 @@ from writers.models import Writer
 from blog.models import Post
 from django.contrib import messages
 from django.views import View
-import cloudinary
-from cloudinary.uploader import upload
+import cloudinary.uploader  # for uploading images
+import cloudinary.api      # for other Cloudinary API calls
 
 
 class WritersView(View):
@@ -42,13 +42,19 @@ class EditProfileView(View):
         bio = request.POST.get('bio', profile.bio)
         picture = request.FILES.get('picture', profile.userImage)
 
-        # Upload the image to Cloudinary
-        result = upload(picture, folder='iCoder/media/users')
-        # 'result' will contain information about the uploaded image, including its public URL
-        public_url = result['secure_url']
+        # Upload the file to Cloudinary
+        upload_result = cloudinary.uploader.upload(
+            picture,
+            public_id=f"iCoder/media/users/{slug}",
+            overwrite=True,
+            resource_type="image"
+        )
+
+        # save the Cloudinary URL to the user's profile
+        cloudinary_url = upload_result['secure_url']
 
         profile.bio  = bio
-        profile.userImage = public_url
+        profile.userImage = cloudinary_url
         profile.save()
         
         messages.success(request, 'Your profile has been successfully updated.')
@@ -70,13 +76,25 @@ class NewBlogView(View):
 
         ptitle = request.POST.get('title')
         ppicture = request.FILES.get('picture')
+
+        # Upload the file to Cloudinary
+        upload_result = cloudinary.uploader.upload(
+            ppicture,
+            public_id=f"iCoder/media/users/{slug}",
+            overwrite=True,
+            resource_type="image"
+        )
+
+        # save the Cloudinary URL to the user's profile
+        cloudinary_url = upload_result['secure_url']
+
         pcontent = request.POST.get('content')
         pauthor = writer.firstName
         pslug = request.POST.get('slug')
         ptimestamp = formatted_time
         pusername = slug
 
-        Post.objects.create(username=pusername, title=ptitle, postImage=ppicture,content=pcontent, author=pauthor, slug=pslug, timeStamp=ptimestamp)
+        Post.objects.create(username=pusername, title=ptitle, postImage=cloudinary_url,content=pcontent, author=pauthor, slug=pslug, timeStamp=ptimestamp)
         
         messages.success(request, 'Your post has been uploaded successfully')
 
@@ -92,12 +110,24 @@ class EditBlogView(View):
         post = Post.objects.filter(slug=slug).first()
         ptitle = request.POST.get('title', post.title)
         ppicture = request.FILES.get('picture', post.postImage)
+
+        # Upload the file to Cloudinary
+        upload_result = cloudinary.uploader.upload(
+            ppicture,
+            public_id=f"iCoder/media/users/{slug}",
+            overwrite=True,
+            resource_type="image"
+        )
+
+        # save the Cloudinary URL to the user's profile
+        cloudinary_url = upload_result['secure_url']
+        
         pcontent = request.POST.get('content', post.content)
         pslug = request.POST.get('slug', post.slug)
         post.title = ptitle
         post.slug = pslug
         post.content = pcontent
-        post.postImage = ppicture
+        post.postImage = cloudinary_url
         post.save()
 
         messages.success(request, 'Your post has been successfully updated.')
