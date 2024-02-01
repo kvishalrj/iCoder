@@ -3,6 +3,7 @@
 
  <h2 align='center'>This repo is about a blog website using Django
 ⭐</h2>
+<h3>This is a dev branch</h3>
 
 ## Tech used
 * HTML
