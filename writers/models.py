@@ -10,7 +10,7 @@ class Writer(models.Model):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=100)
     bio = models.CharField(max_length=1000, default="")
-    userImage = models.CharField(max_length=1000, default="")
+    userImage = models.CharField(max_length=1000, default="/static/userimg/default_user.png")
 
     def __str__(self) -> str:
         return self.firstName + self.lastName
