@@ -23,15 +23,15 @@
 
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}">
+            <input class="form-control border border-dark" type="text" id="title" name="title" placeholder="Title of article..." required>
         </div>
         <div class="mb-3">
             <label for="slug" class="form-label">Slug</label>
-            <input class="form-control border border-dark" type="text" id="slug" name="slug" value="{{post.slug}}">
+            <input class="form-control border border-dark" type="text" id="slug" name="slug" placeholder="Write keyword for your article...eg: (AI, ML, etc.)" required>
         </div>
         <div class="mb-3">
             <label for="bio" class="form-label">Write your post here</label>
-            <textarea class="form-control border border-dark" id="content" name="content" rows="4" ></textarea>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="4" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

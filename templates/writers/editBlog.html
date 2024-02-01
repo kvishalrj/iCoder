@@ -23,15 +23,15 @@
 
         <div class="mb-3">
             <label for="title" class="form-label">Edit Title</label>
-            <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}">
+            <input class="form-control border border-dark" type="text" id="title" name="title" value="{{post.title}}" required>
         </div>
         <div class="mb-3">
             <label for="slug" class="form-label">Edit Slug</label>
-            <input class="form-control border border-dark" type="text" id="slug" name="slug" value="{{post.slug}}">
+            <input class="form-control border border-dark" type="text" id="slug" name="slug" value="{{post.slug}}" required>
         </div>
         <div class="mb-3">
             <label for="bio" class="form-label">Edit your post</label>
-            <textarea class="form-control border border-dark" id="content" name="content" rows="4" >{{post.content}}</textarea>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="4" required>{{post.content}}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>

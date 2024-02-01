@@ -76,20 +76,26 @@ class NewBlogView(View):
 
         ptitle = request.POST.get('title')
         pslug = request.POST.get('slug')
+        pcontent = request.POST.get('content')
         ppicture = request.FILES.get('picture')
 
-        # Upload the file to Cloudinary
-        upload_result = cloudinary.uploader.upload(
-            ppicture,
-            public_id=f"iCoder/media/posts/{pslug}",
-            overwrite=True,
-            resource_type="image"
-        )
+        if ppicture:
+            if ppicture.size > 0:
+                # Upload the file to Cloudinary
+                upload_result = cloudinary.uploader.upload(
+                    ppicture,
+                    public_id=f"iCoder/media/posts/{pslug}",
+                    overwrite=True,
+                    resource_type="image"
+                )
 
-        # save the Cloudinary URL to the user's profile
-        cloudinary_url = upload_result['secure_url']
+                # save the Cloudinary URL to the user's profile
+                cloudinary_url = upload_result['secure_url']
+            else:
+                cloudinary_url = "/static/img/blog.png"
+        else:
+            cloudinary_url = "/static/img/blog.png"
 
-        pcontent = request.POST.get('content')
         pauthor = writer.firstName
         ptimestamp = formatted_time
         pusername = slug
@@ -109,19 +115,25 @@ class EditBlogView(View):
     def post(self, request, slug):
         post = Post.objects.filter(slug=slug).first()
         ptitle = request.POST.get('title', post.title)
-        ppicture = request.FILES.get('picture', post.postImage)
+        ppicture = request.FILES.get('picture')
 
-        # Upload the file to Cloudinary
-        upload_result = cloudinary.uploader.upload(
-            ppicture,
-            public_id=f"iCoder/media/users/{slug}",
-            overwrite=True,
-            resource_type="image"
-        )
+        if ppicture:
+            if ppicture.size > 0:
+                # Upload the file to Cloudinary
+                upload_result = cloudinary.uploader.upload(
+                    ppicture,
+                    public_id=f"iCoder/media/posts/{slug}",
+                    overwrite=True,
+                    resource_type="image"
+                )
 
-        # save the Cloudinary URL to the user's profile
-        cloudinary_url = upload_result['secure_url']
-        
+                # save the Cloudinary URL to the user's profile
+                cloudinary_url = upload_result['secure_url']
+            else:
+                cloudinary_url = post.postImage
+        else:
+            cloudinary_url = post.postImage
+            
         pcontent = request.POST.get('content', post.content)
         pslug = request.POST.get('slug', post.slug)
         post.title = ptitle
