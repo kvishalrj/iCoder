@@ -31,7 +31,7 @@
         </div>
         <div class="mb-3">
             <label for="bio" class="form-label">Write your post here</label>
-            <textarea class="form-control border border-dark" id="content" name="content" rows="4" required></textarea>
+            <textarea class="form-control border border-dark" id="content" name="content" rows="10" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -41,28 +41,5 @@
 {% endblock body %}
 
 {% block js %}
-
-<script>
-
-    function previewFile() {
-        var preview = document.getElementById('previewImage');
-        var picture = document.getElementById('picture');
-        var defaultImage = document.getElementById('defaultImage');
-    
-        var file = picture.files[0];
-    
-        if (file) {
-          var reader = new FileReader();
-    
-          reader.onloadend = function () {
-            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded" style="width: 600px; height: 400px; object-fit: cover;">';
-            defaultImage.style.display = 'none';
-          };
-    
-          reader.readAsDataURL(file);
-        } 
-      }
-
-</script>
 
 {% endblock js %}

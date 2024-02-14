@@ -8,7 +8,7 @@ class Post(models.Model):
     username = models.CharField(max_length=15, default="")
     title = models.CharField(max_length=255)
     postImage = models.CharField(max_length=1000, default="/static/img/blog.png")
-    content = models.TextField()
+    content = models.CharField(max_length=1000)
     author = models.CharField(max_length=100)
     slug = models.CharField(max_length=130)
     views = models.IntegerField(default=0)
