@@ -42,4 +42,27 @@
 
 {% block js %}
 
+<script>
+
+    function previewFile() {
+        var preview = document.getElementById('previewImage');
+        var picture = document.getElementById('picture');
+        var defaultImage = document.getElementById('defaultImage');
+
+        var file = picture.files[0];
+
+        if (file) {
+          var reader = new FileReader();
+
+          reader.onloadend = function () {
+            preview.innerHTML = '<img src="' + reader.result + '" alt="Preview" class="rounded" style="width: 600px; height: 400px; object-fit: cover;">';
+            defaultImage.style.display = 'none';
+          };
+
+          reader.readAsDataURL(file);
+        } 
+      }
+
+</script>
+
 {% endblock js %}
