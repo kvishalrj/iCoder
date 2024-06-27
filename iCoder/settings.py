@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
-import dj_database_url
 from decouple import config
 import cloudinary
+from os import getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -62,10 +65,18 @@ cloudinary.config(
     api_secret=config('api_secret')
 )
 
-DATABASE_URL = config('DATABASE_URL')
-
 DATABASES = {
-    'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600), # type: ignore
+  'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': getenv('PGDATABASE'),
+    'USER': getenv('PGUSER'),
+    'PASSWORD': getenv('PGPASSWORD'),
+    'HOST': getenv('PGHOST'),
+    'PORT': getenv('PGPORT', 5432),
+    'OPTIONS': {
+      'sslmode': 'require',
+    },
+  }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
